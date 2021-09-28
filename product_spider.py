@@ -1,28 +1,35 @@
 import scrapy
-from scrapy.selector import Selector
+from items import ProductItem
 
 class ProductSpider(scrapy.Spider):
     name = "products"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.url = kwargs['url']
+        self.items_xpath = kwargs['items_xpath']
+        self.url_xpath = kwargs['url_xpath']
+        self.name_xpath = kwargs['name_xpath']
+        self.price_xpath = kwargs['price_xpath']
+        self.image_xpath = kwargs['image_xpath']
+    
     def start_requests(self):
-        meta = {'items_xpath': f'{self.items_xpath}','url_xpath' : f'{self.url_xpath}', 'name_xpath': f'{self.name_xpath}', 
-        'price_xpath': f'{self.price_xpath}', 'image_xpath': f'{self.image_xpath}'}
-        yield scrapy.Request(f'{self.url}', callback=self.parse, meta=meta)
+        meta = {
+            'items_xpath': self.items_xpath,
+            'url_xpath' : self.url_xpath, 
+            'name_xpath': self.name_xpath, 
+            'price_xpath': self.price_xpath, 
+            'image_xpath': self.image_xpath,
+            }
+        yield scrapy.Request(self.url, callback=self.parse, meta=meta)
 
     def parse(self, response):
-        items_xpath = response.meta['items_xpath']
-        url_xpath= response.meta['url_xpath']
-        name_xpath = response.meta['name_xpath']
-        price_xpath = response.meta['price_xpath']
-        image_xpath = response.meta['image_xpath']
-        items = Selector(response).xpath(items_xpath).extract()
-        print(name_xpath)
-        list_of_dictionary = []
-        for item in items:
-            dictionary = {}
-            dictionary['url'] = Selector(text=item).xpath(url_xpath).get()
-            dictionary['name'] = Selector(text=item).xpath(name_xpath).get()
-            dictionary['price'] = Selector(text=item).xpath(price_xpath).get()
-            dictionary['image'] = Selector(text=item).xpath(image_xpath).get()
-            list_of_dictionary.append(dictionary)
-        for dictionary in list_of_dictionary:
-            print(dictionary)
+        item = ProductItem()
+        products = response.xpath(response.meta['items_xpath'])
+        for product in products:
+            item['url'] = product.xpath(response.meta['url_xpath']).get()
+            print(item['url'])
+            item['name'] = product.xpath(response.meta['name_xpath']).get()
+            item['price'] = product.xpath(response.meta['price_xpath']).get()
+            item['image_link'] = product.xpath(response.meta['image_xpath']).get()
+            yield item
