@@ -1,5 +1,7 @@
 from myscraper.spiders import spider
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
+from twisted.internet import reactor
+from scrapy.utils.log import configure_logging
 class runner():
     def __init__(self,urls,items_xpath,url_xpath,name_xpath,price_xpath,image_xpath):
         self.settings = {
@@ -24,8 +26,8 @@ class runner():
             'DOWNLOAD_TIMEOUT' : '180',
             'LOG_ENABLED' : 'False',
         }
-        self.process = CrawlerProcess(self.settings)
-        self.process.crawl(
+        self.process = CrawlerRunner(self.settings)
+        self.d = self.process.crawl(
             spider.productSpider,
             urls = urls,
             items_xpath = items_xpath,
@@ -36,16 +38,9 @@ class runner():
         )
 
     def run(self):
-        self.process.start()
+        configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
+        self.d.addBoth(lambda _: reactor.stop())
+        reactor.run()
+        return 
         
-r = runner(
-    [
-        ['https://www.lazada.vn/catalog/?q=dien+thoai+nokia', 3]
-    ],
-    '//div[@data-qa-locator="product-item"]',
-    './/a[1]/@href',
-    './/a[1]/@title',
-    './/span[@class="Q78Jz"]/text()',
-    './/a[1]/img/src[1]'
-)
-r.run()
+

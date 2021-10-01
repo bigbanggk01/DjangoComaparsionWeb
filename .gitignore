@@ -1,2 +1,9 @@
 /env
 /__pycache__
+/scrape
+*.txt
+/myscraper/myscraper/__pycache__
+/myscraper/middlewares.py
+/myscraper/pipelines.py
+/myscraper/settings.py
+//myscraper/__init__.py
