@@ -27,18 +27,9 @@ def home(request):
         contexts.append(context)
         context = {'contexts':contexts}
     render(request,'main/index.html',context)
-    r = startspider.runner(
-        [
-            ['https://tiki.vn/search?q=', 1]
-        ],
-        '//a[@class="product-item"]',
-        './/@href',
-        './/div[@class="name"]/span/text()',
-        './/div[@class="price-discount__price"]/text()',
-        './/picture[@class="webpimg-container"]/img/@src[1]'
-    )
     
-    return r.run()
+    
+    return 
 
 def about(request):
     return render(request,'main/about.html')
