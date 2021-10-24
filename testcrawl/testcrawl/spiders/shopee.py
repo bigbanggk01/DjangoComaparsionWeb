@@ -40,10 +40,10 @@ class productSpider(scrapy.Spider):
     # end
     # """
     def start_requests(self):
-        urls = ['https://shopee.vn/Th%E1%BB%9Di-Trang-Nam-cat.11035567',]
+        urls = ['https://shopee.vn/Th%E1%BB%9Di-Trang-Nam-cat.11035567','https://shopee.vn/Th%E1%BB%9Di-Trang-Nam-cat.11035567?page=1']
         
         for url in urls:
-            yield SplashRequest(url, self.parse, endpoint='execute', args={'wait':10,'lua_source': self.script_1})
+            yield SplashRequest(url, self.parse, endpoint='execute', args={'wait':5,'lua_source': self.script_1})
             
     def parse(self, response):
         item = TestcrawlItem()
