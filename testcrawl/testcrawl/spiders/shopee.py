@@ -59,8 +59,7 @@ class productSpider(scrapy.Spider):
             for product in products:
                 item['url'] = f'https://shopee.vn/x-i.{product["item_basic"]["shopid"]}.{product["item_basic"]["itemid"]}?sp_atk=2b6a67f8-2a86-4f5e-b25a-12282aaeb4b3'
                 item['name'] = product['item_basic']['name']
-                tmp_price = product['item_basic']['price']
-                item['price'] = str(tmp_price)[:-5]
+                item['price'] = str(product['item_basic']['price'])[:-5]
                 item['image_link'] = 'https://cf.shopee.vn/file/'+product['item_basic']['image']
                 item['category'] = response.meta['category']
                 item['brand'] = product['item_basic']['brand']

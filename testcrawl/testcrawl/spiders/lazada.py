@@ -1,66 +1,56 @@
 import scrapy
+from scrapy import signals
 from testcrawl.items import TestcrawlItem
-from scrapy_splash import SplashRequest
+import mysql.connector
+import json
+
 class productSpider(scrapy.Spider):
     name = "lazada"
-    script = """
-    function main(splash)
-        splash:init_cookies(splash.args.cookies)
-        local url = splash.args.url
-        assert(splash:go(url))
-        splash:wait(splash.args.wait)
-        return {
-            cookies = splash:get_cookies(),
-            html = splash:html(),
-        }
-    end
-    """
-    script_1 = """
-    function main(splash)
-        splash:init_cookies(splash.args.cookies)
-        local num_scrolls = 10
-        local scroll_delay = 1
-        local scroll_to = splash:jsfunc("window.scrollTo")
-        local get_body_height = splash:jsfunc(
-            "function() {return document.body.scrollHeight;}"
-        )
-        assert(splash:go(splash.args.url))
-        splash:wait(splash.args.wait)
-        for _ = 1, num_scrolls do
-            local height = get_body_height()
-            for i = 1, 10 do
-                scroll_to(0, height * i/10)
-                splash:wait(scroll_delay/10)
-            end
-        end        
-        return {
-            cookies = splash:get_cookies(),
-            html = splash:html(),
-        }
-    end
-    """
+    allow_domain = ['lazada.vn']
+    urls = ['https://www.lazada.vn/']
+
     def start_requests(self):
-        urls = ['https://www.lazada.vn/tai-nghe-nhet-tai/?spm=a2o4n.home.categories.10.1905e182E94egw&up_id=290738102&clickTrackInfo=236599f3-eab7-4a21-a875-1e8cd2414be9__4585__290738102__static__0.0985132925088989__158075__7253&from=hp_categories&item_id=290738102&version=v2',
-        'https://www.lazada.vn/tai-nghe-nhet-tai/?clickTrackInfo=236599f3-eab7-4a21-a875-1e8cd2414be9__4585__290738102__static__0.0985132925088989__158075__7253&from=hp_categories&item_id=290738102&page=2&spm=a2o4n.home.categories.10.1905e182E94egw&up_id=290738102&version=v2',
-        'https://www.lazada.vn/thoi-trang-giay-cho-be-trai/?spm=a2o4n.home.cate_9.6.3675e182WAsqQQ',
-        ]
-        
+        for url in self.urls:
+            yield scrapy.Request(url=url, callback=self.parse_category)
+
+    def parse_category(self, response):
+        urls = response.xpath('//li[@class="sub-item-remove-arrow"] | //li[@class="lzd-site-menu-sub-item"]')
+        tmp_product_urls = []
+        product_urls = []
+
         for url in urls:
-            yield SplashRequest(url, self.parse, endpoint='execute', args={'wait':5,'lua_source': self.script_1})
-            
+            tmp_product_url = {}
+            tmp_product_url['url'] = url.xpath('.//a/@href').get()[2:]+f'?ajax=true&scm=1003.4.icms-zebra-5000631-6745005.OTHER_6045239811_7414666&page='
+            tmp_product_url['category'] = tmp_product_url['url'][14:].replace('-',' ').replace('/','')
+            tmp_product_urls.append(tmp_product_url)
+
+        for item in tmp_product_urls:
+            for i in range(0,2):
+                product_urls_item = {}
+                product_urls_item['url'] = 'https://' + item['url']+str(i)
+                product_urls_item['category'] = item['category']
+                product_urls.append(product_urls_item)
+
+        for item in product_urls:
+            yield scrapy.Request(url=item['url'],callback=self.parse, meta=item)
+
     def parse(self, response):
         item = TestcrawlItem()
-        # f = open('shopee.xpath','r')
-        # xpath = []
-        # for line in enumerate(f):
-        #     xpath.append(line[1].strip())
-        # f.close()
-        products = response.xpath('//div[@data-qa-locator="product-item"]')
-        if products != []:
+        resp = json.loads(response.body)
+        products = resp.get('mods')['listItems']
+        if(products != []):
             for product in products:
-                item['url'] = product.xpath('.//a[1]/@href').get()
-                item['name'] = product.xpath('.//a[1]/@title').get()
-                item['price'] = product.xpath('.//span[@class="Q78Jz"]/text()').get()
-                item['image_link'] = product.xpath('.//a[1]/img/src[1]').get()
+                item['url'] = product['productUrl']
+                item['name'] = product['name']
+                item['price'] = product['price']
+                item['image_link'] = product['image']
+                item['category'] = response.meta['category']
+                item['brand'] = product['brandName']
+                item['description'] = product['description']
                 yield item
-                print(item)
+                # sql = "INSERT INTO product_shopee (url, name, price, image_link, brand, category) VALUES (%s, %s, %s, %s, %s, %s)"
+                # val = (item['url'], item['name'], item['price'], item['image_link'], item['brand'], item['category'])
+                # self.mycursor.execute(sql, val)
+                # self.mydb.commit()
+
+    
