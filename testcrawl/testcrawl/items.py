@@ -9,3 +9,6 @@ class TestcrawlItem(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
     image_link = scrapy.Field()
+    description = scrapy.Field()
+    category =scrapy.Field()
+    brand = scrapy.Field()

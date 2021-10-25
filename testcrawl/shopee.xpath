@@ -1,0 +1,6 @@
+shopee
+//div[@data-sqe="item"]
+.//a[@data-sqe="link"]/@href
+.//div[@data-sqe="name"]/div[1]/div[1]/text()
+.//div[@class="zp9xm9"]/text()
+.//a[@data-sqe="link"]/div[1]/div[1]/div[1]/img/@src[1]
