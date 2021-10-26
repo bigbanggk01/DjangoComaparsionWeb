@@ -32,6 +32,7 @@ class productSpider(scrapy.Spider):
     def parse_category(self, response):
         resp = json.loads(response.body)
         items = resp.get('items')
+        print(response.body)
         tmp_product_urls = []
         product_urls = []
         for item in items:
