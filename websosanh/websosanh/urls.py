@@ -14,14 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from main.views import GetAllProductAPIView
-from frontend.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/product/',GetAllProductAPIView.as_view()),
-    path('index/',index),
-
+    path('', include('frontend.urls')),
 ]
 # handler404 = 'main.views.handler404'
 # handler500 = 'main.views.handler500'
