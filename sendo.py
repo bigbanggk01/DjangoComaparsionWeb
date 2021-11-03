@@ -76,19 +76,19 @@ class SendoCrawler():
         options.add_argument('--disable-browser-side-navigation')
         driver = webdriver.Firefox(service=s, capabilities=cap ,options=options)
         for link in cate_links:
+            page = min_page
+            tmp_link = link['url'] + "?page=" + str(page)
             print('[INFO] Category id: ' + str(link['id']))
-            driver.get(link['url'])
+            print('[InFO] Start url: ' + tmp_link)
+            driver.get(tmp_link)
             driver.maximize_window()
             driver.implicitly_wait(1.5)
-            tmp_link = link['url'] + "?page="
-            driver.delete_all_cookies()
-            page = 1
             flag = 0
-            while page < max_page and page < min_page:
+            while page <= max_page and page >= min_page:
                 if flag == 1:
                     break
-                for i in range(13):
-                        driver.execute_script("window.scrollBy(0, 400)")
+                for i in range(9):
+                        driver.execute_script("window.scrollBy(0, 500)")
                         sleep(0.1)
                         try:
                             source_element = driver.find_element(By.XPATH,'//button[@class="closeBtn_2C0k"]')
@@ -133,11 +133,11 @@ print('[INPUT] to: ')
 max_index = input()
 
 print('[INPUT] From page: ')
-min_page = input()
+min_page =int(input()) 
 print('[INPUT] to: ')
-max_page = input()
+max_page = int(input())
 try:
     crawler = SendoCrawler()
-    crawler.get_product(min_index, max_index)
+    crawler.get_product(min_index, max_index, min_page, max_page)
 except Exception as e:
     print(e)
