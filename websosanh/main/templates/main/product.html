@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content_products %}
+<div id="product-setting" class="row row-cols-1">
+    <div class="sort-control">
+
+    </div>
+    
+    <div class="d-flex bd-highlight align-items-center flex-row-reverse">
+        
+        <ul class="pagination">
+            {% if products.number != 1 %}
+            <li class="page-item">
+            <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page=1" aria-label="Previous">
+                <span aria-hidden="true">First</span>
+                <span class="sr-only">begin</span>
+            </a>
+            </li>   
+            {% endif %}
+            {% if products.has_previous %}
+            <li class="page-item">
+            <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ products.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">begin</span>
+            </a>
+            </li>   
+            {% endif %}
+            
+            {% for n in products.paginator.page_range %}
+            {% if products.number == n %}
+                <li class="page-item active">
+                <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif n > products.number|add:'-3' and n < products.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ n }}">{{ n }}</a></li>
+            {% endif %}
+            {% endfor %}
+            
+            {% if products.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ products.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">end</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if products.number != products.paginator.num_pages %}
+            <li class="page-item">
+            <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ products.paginator.num_pages }}" aria-label="Previous">
+                <span aria-hidden="true">Last</span>
+                <span class="sr-only">begin</span>
+            </a>
+            </li>   
+            {% endif %}   
+        </ul>
+    </div>
+</div>
+<div id="products" class="row row-cols-5" style="row-gap: 1.6em;">
+    {% for product in products %}
+        <div class="col" id="product-item" >
+            <div class="card">
+                <a href={{ product.url }}>
+                    <div id="product-image">
+                        <img src={{ product.image_link }} alt="image" />
+                    </div>
+
+                    <div class="card-body">
+                        <div class="tag tag-teal">{{ product.name }}</div>
+                        <div id="product-price">
+                            {{ product.price }}
+                        </div>
+                        <a id="product-button" href={{ product.url }} class="button btn-grad"><span>Mua ngay</span></a>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
