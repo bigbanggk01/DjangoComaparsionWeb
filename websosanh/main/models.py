@@ -6,9 +6,12 @@ from django.db.models.fields import CharField, TextField
 
 # Create your models here.
 class web_information(models.Model):
+    id = models.AutoField(primary_key=True)
     domain = TextField(default='',max_length=40)
-    category = CharField(default='',max_length=100)
-    url = TextField(default='',max_length=1000)
+    url = TextField(default='',max_length=1000, null=True)
+    logo = TextField(default='',max_length=1000, null=False)
+    def __str__(self):
+        return self.domain
     
 class product_xpath(models.Model):
     domain = models.ForeignKey(web_information,on_delete=models.CASCADE)
@@ -19,6 +22,7 @@ class product_xpath(models.Model):
     image_xpath = models.CharField(max_length=100)
 
 class product(models.Model):
+    id = models.AutoField(primary_key=True)
     url = models.TextField(max_length=1000)
     name = models.CharField(max_length=300,null=True)
     price = models.CharField(max_length=20,null=True)
@@ -26,5 +30,17 @@ class product(models.Model):
     description = models.TextField(default='',null=True,max_length=1000)
     brand = models.CharField(default='',null=True, max_length=30)
     category = models.TextField(default='',null=True, max_length=100)
+    domain = models.CharField(default='sendo.vn',null=True, max_length=40)
     def __str__(self):
-        return ', '.join(['id=' + str(self.id), 'name=' + self.name, 'url=' + self.url,'description=' + self.description])
+        return self.name
+
+class my_category(models.Model):
+    name = models.TextField(max_length=200)
+    def __str__(self):
+        return self.name
+
+class my_subcategory(models.Model):
+    parent_category = models.ForeignKey(my_category, on_delete=models.CASCADE)
+    name = models.TextField(max_length=200)
+    def __str__(self):
+        return self.name

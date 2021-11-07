@@ -9,14 +9,29 @@ img{
     width: 100%;
     object-fit: cover;
 }
+li{
+    list-style: none;
+}
+ul{
+    padding-left: 0;
+    margin:0;
+}
 #product-item:hover{
     transform: scale(1.03);
 }
+
+#product-title{
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration:333 ;
+}
+
 #product-price{
     color: #f4511e;
 }
 #navbar{
-    background-color: #eeeee4;
+    background-color: #fcfcfc;
+    border: 1px solid #f0f0f0; 
 }
 .card-body div{
     line-height: 1.8rem;
@@ -35,14 +50,15 @@ img{
 .btn-grad {
     color: #fff;
     text-align: center;
-    padding: 10px;
-    width: 150px;
     transition: 0.5s;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     background-size: 200% auto;
     box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     display: block;
     cursor: pointer;
+    font-size: small;
 }
 
 .btn-grad:hover {
@@ -66,13 +82,189 @@ text-decoration: none;
 }
 
 .text-logo{
-    margin-left: 2rem;
+    padding-right: 0.1rem;
     font-family: 'Saira Condensed', sans-serif;
-    font-size: 45px;
+    font-size: 28px;
 }
 
 .text-logo-deco{
     color: #f4511e;
+}
+
+
+.single {
+    padding: 30px 15px;
+    background: #fcfcfc;
+    border: 1px solid #f0f0f0; 
+}
+.single h3.side-title {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 20px;
+    color: #333;
+    text-transform: uppercase; 
+}
+.single h3.side-title:after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: #f4511e;
+    display: block;
+    margin-top: 6px; 
+}
+
+.single ul {
+    margin-bottom: 0; 
+}
+
+.single li a {
+    padding: 0.2rem;
+    color: #666;
+    font-size: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 40px;
+    display: block;
+    overflow: hidden;
+}
+
+.single li a:hover {
+    color: #f4511e; 
+}
+
+.single li:last-child a {
+    border-bottom: 0; 
+}
+
+#control-box{
+    background-color: #fcfcfc;
+    border: 1px solid #f0f0f0; 
+}
+
+.page-link{
+    color: #000;
+}
+
+.page-item.active .page-link{
+    background-color: #ff6905 ;
+    border-color: #ff6905 ;
+}
+
+.bridge{
+    position: absolute;
+    width: 70px;
+    height: 80px;
+    left: -4rem;
+    top: 4rem;
+    background-color: #FFFFFF;
+    opacity:0;
+}
+
+div.dropend:hover > ul.dropdown-menu {
+    display: block;
+    position: absolute;
+    left: 11.5rem;
+    top: -5rem;
+}
+
+.best-seller, .nice-website {
+    margin-bottom: 1.5rem;
+}
+h4.best-seller,.nice-website {
+	color: #212121;
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-top: 1rem;
+	position: relative;
+
+}
+h4.best-seller:after {
+    content: '';
+    background: #f4511e;
+    height: 1px;
+    width: 18%;
+    position: absolute;
+    top: 120%;
+    left: 0%;
+}
+h4.nice-website:after {
+    content: '';
+    background: #f4511e;
+    height: 1px;
+    width: 23%;
+    position: absolute;
+    top: 120%;
+    left: 0%;
+}
+
+.website-list-grid{
+    border-color:1px solid #f4511e;
+
+}
+table { 
+	width: 750px; 
+	border-collapse: collapse; 
+	}
+
+
+td, tr { 
+	padding: 9.2px; 
+	border: 1px solid #ccc; 
+	text-align: left; 
+	font-size: 18px;
+	}
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	table { 
+	  	width: 100%; 
+	}
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		/* Label the data */
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
 }
 /* Smaller than standard 960 (devices and browsers) */
 @media only screen and (max-width: 959px) {}
@@ -88,3 +280,4 @@ text-decoration: none;
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
+

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import product
+from .models import product,my_category,my_subcategory, web_information
 from .serializers import ProductSerializer
 from rest_framework import generics
 from django.shortcuts import render
@@ -15,7 +15,18 @@ def home(request):
     if q is not None:
         return redirect('/main/?q='+q)
     else:
-        return render(request,'main/home.html')   
+        categories = my_category.objects.all()
+        subcategories = my_subcategory.objects.all()
+        products = product.objects.all().order_by('id')[:12]
+        websites = web_information.objects.all().order_by('id')[:19]
+        context = {
+            'categories':categories,
+            'subcategories':subcategories,
+            'products':products,
+            'websites':websites
+        }
+               
+        return render(request,'main/home.html',context)   
 
 def index(request):
     context = {}
@@ -26,7 +37,11 @@ def index(request):
 
     products = product.objects.filter(name__search=query).all()
     context['products'] = products
+    categories = my_category.objects.all()
+    subcategories = my_subcategory.objects.all()
 
+    context['categories'] = categories 
+    context['subcategories'] = subcategories
     #pagination
     page = request.GET.get('page',1)
     products_paginator = Paginator(products, PRODUCT_PER_PAGE)
@@ -39,6 +54,8 @@ def index(request):
         products = products_paginator.page(products_paginator.num_pages)
 
     context['products'] = products
+    
+        
     return render(request, 'main/product.html', context)
 
 class GetAllProductAPIView(generics.ListCreateAPIView):
