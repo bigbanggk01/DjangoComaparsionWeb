@@ -35,7 +35,7 @@ def index(request):
         query = request.GET.get('q','')
         context['query'] = str(query)
 
-    products = product.objects.filter(name__search=query).all()
+    products = product.objects.filter(name__search=query).all().order_by('id')
     context['products'] = products
     categories = my_category.objects.all()
     subcategories = my_subcategory.objects.all()

@@ -170,6 +170,10 @@ div.dropend:hover > ul.dropdown-menu {
 .best-seller, .nice-website {
     margin-bottom: 1.5rem;
 }
+
+#user-icon:hover{
+    color: #FF512F;
+}
 h4.best-seller,.nice-website {
 	color: #212121;
 	font-size: 1.5rem;

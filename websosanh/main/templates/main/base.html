@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +15,7 @@
     <link rel="stylesheet" href="{% static "/main/font/awesome/css/all.min.css" %}">
 </head>
 <body>
+  
     <div id="navbar" class="container-fluid sticky-top pt-3 pb-3">
         <nav class="container">
             <div class="row" >
@@ -30,8 +33,23 @@
                         </div>
                     </form>
                 </div>
+                
                 <div class="col-lg-2 d-flex justify-content-center align-items-center">
-                    <i class="fa fa-bars fa-2x"></i>
+                  {% if user.is_authenticated %}
+                      <div class="d-flex justify-content-center align-items-center">
+                      {{ user.socialaccount_set.all.0.extra_data.name }}
+                      <a href="/accounts/logout">
+                        <i id="user-icon" class="fas fa-user-circle fa-2x m-2">
+                        </i>
+                      </a>
+                  <!-- <i class="fa fa-bars fa-2x"></i> -->
+                  {% else %}
+                  <a href="{% provider_login_url "facebook" method="oauth2" %}">
+                    Facebook login
+                    <i class="fal fa-sign-in"></i>
+                  </a>
+                    <!-- <button><a href="{% provider_login_url "facebook" method="oauth2" %}">Google login</a></button> -->
+                  {% endif %}
                 </div>
             </div>
         </nav>
