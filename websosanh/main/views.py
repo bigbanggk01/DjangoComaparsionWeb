@@ -1,3 +1,4 @@
+from django.contrib.postgres import search
 from django.db.models import query
 from django.shortcuts import redirect, render
 from rest_framework.views import APIView
@@ -8,7 +9,8 @@ from .serializers import ProductSerializer
 from rest_framework import generics
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import F
 PRODUCT_PER_PAGE = 60
 def home(request):
     q = request.GET.get('q')
@@ -34,8 +36,11 @@ def index(request):
     if request.GET:
         query = request.GET.get('q','')
         context['query'] = str(query)
+    # products = product.objects.annotate(search=SearchVector('name')).filter(query).order_by('id')
+    myquery = SearchQuery(query)
+    rank = SearchRank(F('vector_column'), query)
 
-    products = product.objects.filter(name__search=query).all().order_by('id')
+    products = product.objects.annotate(rank=rank).filter(vector_column=myquery).order_by('-rank')
     context['products'] = products
     categories = my_category.objects.all()
     subcategories = my_subcategory.objects.all()

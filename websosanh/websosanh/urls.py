@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import GetAllProductAPIView
+# from main.views import GetAllProductAPIView
+from main.views import index,home
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/product/',GetAllProductAPIView.as_view()),
-    path('', include('frontend.urls')),
+    # path('api/product/',GetAllProductAPIView.as_view()),
+    path('main/',index),
+    path('',home),
+    path('accounts/', include('allauth.urls'))
 ]
 # handler404 = 'main.views.handler404'
 # handler500 = 'main.views.handler500'

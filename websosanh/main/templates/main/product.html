@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
+{% load humanize %}
 {% block content_products %}
 <div id="product-setting" class="row row-cols-1">
     <!-- <div class="sort-control">
@@ -59,6 +59,44 @@
     {% for product in products %}
         <div class="col" id="product-item" >
             <div class="card">
+                {% if product.domain == 'tiki.vn' %}
+                {% with 'https://tiki.vn/'|add:product.url as purl %}
+                <a href='{{purl}}'>
+                    <div id="product-image" >
+                        <img src="{{ product.image_link }}" alt="image" />
+                    </div>
+
+                    <div class="card-body">
+                        {% if product.domain == 'sendo.vn' %}
+                        <div>
+                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                        </div>
+                        {% elif product.domain == 'tiki.vn' %}
+                        <div>
+                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                        </div>
+                        {% elif product.domain == 'lazada.vn' %}
+                        <div>
+                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                        </div>
+                        {% elif product.domain == 'shopee.vn' %}
+                        <div>
+                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                        </div>
+                        {% else %}
+                        <div class="provider">
+                            {{ product.domain }}
+                        </div>
+                        {% endif%}
+                        <div id="product-title" class="tag tag-teal">{{ product.name }}</div>
+                        <div id="product-price">
+                            {{ product.price|intcomma }} đ
+                        </div>
+                        <a id="product-button" href={{ purl }} class="button btn-grad"><span>Mua ngay</span></a>
+                    </div>
+                </a>
+                {% endwith %} 
+                {% else %}
                 <a href={{ product.url }}>
                     <div id="product-image" >
                         <img src="{{ product.image_link }}" alt="image" />
@@ -88,11 +126,12 @@
                         {% endif%}
                         <div id="product-title" class="tag tag-teal">{{ product.name }}</div>
                         <div id="product-price">
-                            {{ product.price }}
+                            {{ product.price|intcomma }} đ
                         </div>
                         <a id="product-button" href={{ product.url }} class="button btn-grad"><span>Mua ngay</span></a>
                     </div>
                 </a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

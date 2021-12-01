@@ -1,6 +1,7 @@
 $(document).ready(function () {
-   $('#user-icon').click(function (e) { 
-       e.preventDefault();
-       $('#myModal').appendTo("body").modal('show');
+   $('#login-button').mouseup(function (e) { 
+        e.preventDefault();
+        $(this).parent().find(".login-field").toggle();
+        $(".login-modal").toggle();
    });
 });
