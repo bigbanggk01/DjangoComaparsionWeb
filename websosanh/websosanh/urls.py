@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 # from main.views import GetAllProductAPIView
-from main.views import index,home
+from main.views import prod,home,register
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/product/',GetAllProductAPIView.as_view()),
-    path('main/',index),
+    path('main/',prod),
     path('',home),
+    path('main/register/',register),
     path('accounts/', include('allauth.urls'))
 ]
 # handler404 = 'main.views.handler404'

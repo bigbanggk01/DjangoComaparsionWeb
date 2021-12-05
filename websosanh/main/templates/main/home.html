@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
+{% load humanize %}
 {% block content_home %}
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -94,15 +94,15 @@
     <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <div class="row row-cols-6">
+                <div class="row row-cols-5">
                     {% for product in products %}
-                    {% if forloop.counter0 < 6 %}
+                    {% if forloop.counter0 < 5 %}
                     <div class="col mb-3">
                         <a class="card" href="{{ product.url }}">
                             <img class="img-fluid" alt="" src="{{ product.image_link}}" style="height: 200px; object-fit: scale-down;">
                             <div class="card-body">
                                 <div id="product-title" class="tag tag-teal">{{ product.name }}</div>
-                                <div id="product-price">{{ product.price }}</div>
+                                <div id="product-price">{{ product.price|intcomma }} đ</div>
                             </div>
                         </a>
                     </div>
@@ -111,15 +111,62 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="row row-cols-6">
+                <div class="row row-cols-5">
                     {% for product in products %}
-                    {% if forloop.counter0 >= 6 and forloop.counter0 < 12 %}
+                    {% if forloop.counter0 >= 5 and forloop.counter0 < 10 %}
                     <div class="col mb-3">
                         <a class="card" href="{{ product.url }}">
                             <img class="img-fluid" alt="100%x280" src="{{ product.image_link}}" style="height: 200px; object-fit: scale-down;">
                             <div class="card-body">
                                 <div id="product-title">{{ product.name }}</div>
-                                <div id="product-price">{{ product.price }}</div>
+                                <div id="product-price">{{ product.price|intcomma }} đ</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content_home4 %}
+<div class="mt-3">
+    <div class="best-seller">
+        <h4 class="best-seller">Danh mục nổi bật</h4>
+    </div>
+
+    <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="row row-cols-5">
+                    {% for product in products %}
+                    {% if forloop.counter0 < 5 %}
+                    <div class="col mb-3">
+                        <a class="card" href="{{ product.url }}">
+                            <img class="img-fluid" alt="" src="{{ product.image_link}}" style="height: 200px; object-fit: scale-down;">
+                            <div class="card-body">
+                                <div id="product-title" class="tag tag-teal">{{ product.name }}</div>
+                                <div id="product-price">{{ product.price|intcomma }} đ</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row row-cols-5">
+                    {% for product in products %}
+                    {% if forloop.counter0 >= 5 and forloop.counter0 < 10 %}
+                    <div class="col mb-3">
+                        <a class="card" href="{{ product.url }}">
+                            <img class="img-fluid" alt="100%x280" src="{{ product.image_link}}" style="height: 200px; object-fit: scale-down;">
+                            <div class="card-body">
+                                <div id="product-title">{{ product.name }}</div>
+                                <div id="product-price">{{ product.price|intcomma }} đ</div>
                             </div>
                         </a>
                     </div>

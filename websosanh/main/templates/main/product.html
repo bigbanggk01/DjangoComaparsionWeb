@@ -59,49 +59,10 @@
     {% for product in products %}
         <div class="col" id="product-item" >
             <div class="card">
-                {% if product.domain == 'tiki.vn' %}
-                {% with 'https://tiki.vn/'|add:product.url as purl %}
-                <a href='{{purl}}'>
-                    <div id="product-image" >
-                        <img src="{{ product.image_link }}" alt="image" />
-                    </div>
-
-                    <div class="card-body">
-                        {% if product.domain == 'sendo.vn' %}
-                        <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
-                        </div>
-                        {% elif product.domain == 'tiki.vn' %}
-                        <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
-                        </div>
-                        {% elif product.domain == 'lazada.vn' %}
-                        <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
-                        </div>
-                        {% elif product.domain == 'shopee.vn' %}
-                        <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
-                        </div>
-                        {% else %}
-                        <div class="provider">
-                            {{ product.domain }}
-                        </div>
-                        {% endif%}
-                        <div id="product-title" class="tag tag-teal">{{ product.name }}</div>
-                        <div id="product-price">
-                            {{ product.price|intcomma }} đ
-                        </div>
-                        <a id="product-button" href={{ purl }} class="button btn-grad"><span>Mua ngay</span></a>
-                    </div>
-                </a>
-                {% endwith %} 
-                {% else %}
                 <a href={{ product.url }}>
                     <div id="product-image" >
                         <img src="{{ product.image_link }}" alt="image" />
                     </div>
-
                     <div class="card-body">
                         {% if product.domain == 'sendo.vn' %}
                         <div>
@@ -109,15 +70,15 @@
                         </div>
                         {% elif product.domain == 'tiki.vn' %}
                         <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                            <img class="rounded mx-auto d-block" src="https://phariton.com/wp-content/uploads/2019/10/logo-tiki.png" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
                         </div>
                         {% elif product.domain == 'lazada.vn' %}
                         <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                            <img class="rounded mx-auto d-block" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Lazada_%282019%29.svg/2560px-Lazada_%282019%29.svg.png" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
                         </div>
                         {% elif product.domain == 'shopee.vn' %}
                         <div>
-                            <img class="rounded mx-auto d-block" src="https://media3.scdn.vn/img3/2019/12_4/q5bS5n.jpg" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
+                            <img class="rounded mx-auto d-block" src="https://deo.shopeemobile.com/shopee/shopee-mobilemall-live-sg/assets/d010b985fc1475e559b6db819889703c.png" alt="" srcset="" style="object-fit: cover; width: 100px;height: 30;">
                         </div>
                         {% else %}
                         <div class="provider">
@@ -131,7 +92,6 @@
                         <a id="product-button" href={{ product.url }} class="button btn-grad"><span>Mua ngay</span></a>
                     </div>
                 </a>
-                {% endif %}
             </div>
         </div>
     {% endfor %}
