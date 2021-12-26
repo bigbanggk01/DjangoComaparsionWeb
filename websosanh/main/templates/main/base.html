@@ -106,11 +106,11 @@
                     <ul class="list-unstyled">
                         {% for category in categories %}
                         <li>
-                            <a href="/main/?cat={{ category.id }}"">
+                            
                               <div class="dropend">
-                                  <div data-bs-toggle="dropdown">
+                                  <a href="/main/?cat={{ category.id }}"" data-bs-toggle="dropdown">
                                       {{ category.name }}
-                                  </div>
+                                  </a>
                                   
                                   <ul class="dropdown-menu">
                                       <div class="bridge">
@@ -129,7 +129,6 @@
                                   </ul>
                                   
                               </div>
-                            </a>
                           </li>
                         {% endfor %}
                     </ul>
